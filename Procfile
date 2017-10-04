@@ -1,1 +1,2 @@
-web:
+web: gopee
+worker: worker
