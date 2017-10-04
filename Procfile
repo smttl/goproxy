@@ -1,1 +1,1 @@
-web: gopee
+web: gopee.go
