@@ -1,2 +1,2 @@
-web: gopee
+web: goproxy
 worker: worker
