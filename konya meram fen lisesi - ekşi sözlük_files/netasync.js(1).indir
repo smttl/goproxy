@@ -1,0 +1,388 @@
+try {
+    var networkAds = networkAds || {};
+	
+	networkAds.async4093663 = {
+		// Static Definitions
+		divWidth: (document.width ? document.width : window.innerWidth),
+		divHeight: (document.height ? document.height : window.innerHeight),
+		divReferer: '',
+		divReqCount: 0,
+		divResCount: 0,
+		divAds: [],
+		divTimeout: '',
+		divDone: 0,
+		divDebug: 0,
+		hBid: 0,
+		
+		filteredDomains: [],
+		
+		outImp: function(code) {
+			var t = Boolean(navigator.appVersion.match(/msie/i)) ? new Image : document.createElement('img');
+			t.width = 1; 
+			t.height = 1; 
+			t.style.display = 'none'; 
+			t.src = code;
+		},
+		
+		outScript: function(code) {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.src = code; ga.async = true;
+			document.body.appendChild(ga);
+		},
+		
+		inScript: function(code) {
+			var ga = document.createElement('script'); ga.type = 'text/javascript';
+			
+			try {
+				ga.appendChild(document.createTextNode(code));
+				document.body.appendChild(ga);
+			} 
+			catch(e) {
+				ga.text = code;
+				document.body.appendChild(ga);
+			}
+		},
+		
+		topOutScript: function(code) {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.src = code; ga.async = true;
+			window.top.document.body.appendChild(ga);
+		},
+		
+		topInScript: function(code) {
+			var ga = document.createElement('script'); ga.type = 'text/javascript';
+			
+			try {
+				ga.appendChild(document.createTextNode(code));
+				window.top.document.body.appendChild(ga);
+			} 
+			catch(e) {
+				ga.text = code;
+				window.top.document.body.appendChild(ga);
+			}
+		},
+		
+		inArray: function(a, obj) {
+			if(!a || !obj)
+				return false;
+			
+			if(typeof a == 'array' || typeof a == 'object'){
+				var cnt=a.length;
+				while(cnt--){
+					var i = obj.length;
+					while(i--) {
+						if(obj[i] === a[cnt])
+						return true;
+					}
+				}
+			}
+			else {
+				var i = obj.length;
+				while(i--) {
+					if(obj[i] === a)
+						return true;
+				}
+			}
+			return false;
+		},
+
+		httpRequest: function(url, message) {
+			if(window.XDomainRequest) {
+				var xmlhttp = new window.XDomainRequest();
+			}
+			else {
+				if(window.XMLHttpRequest) {
+					var xmlhttp = new XMLHttpRequest;
+				}
+				else {
+					var xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				
+				xmlhttp.onreadystatechange = function() {
+					if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						
+					}
+				};
+			}
+			
+			xmlhttp.open("POST", url);
+			xmlhttp.send(message);
+		},
+		
+		guid: function() {
+			function s4() {
+				return Math.floor((1 + Math.random()) * 0x10000)
+					.toString(16)
+					.substring(1);
+			}
+			return s4() + s4() + "-" + s4() + "-" + s4() + "-" + s4() + "-" + s4() + s4() + s4();
+		},
+		
+		dynamicScript: function(code) {
+			this.outScript('//cas.criteo.com/delivery/0.1/napi.jsonp?utime=' + Math.random() + '&zoneid=' + code + '&callback=networkAds.async4093663.cto_callback_' + code);
+		},
+		
+		topCreateDiv: function(data) {
+			var div = document.createElement("div");
+			div.innerHTML = data; 
+			window.top.document.getElementById(window.frameElement.parentElement.id).appendChild(div);
+			
+			b = data.match(/<script type="text\/javascript">.+?<\/script>/g);
+			for(var i in b) {
+				if(typeof b[i] === 'string')
+					this.topInScript(b[i].replace('<script type="text\/javascript">', '').replace('<\/script>', ''));
+			}
+		},
+		
+		createDiv: function(data) {
+			document.getElementById('div_313').innerHTML = data;
+			b = data.match(/<script type="text\/javascript">.+?<\/script>/g);
+			for(var i in b) {
+				if(typeof b[i] === 'string')
+					this.inScript(b[i].replace('<script type="text\/javascript">', '').replace('<\/script>', ''));
+			}
+		},
+		
+		shuffleArray: function(array) {
+			for (var i = array.length - 1; i > 0; i--) {
+				var j = Math.floor(Math.random() * (i + 1));
+				var temp = array[i];
+				array[i] = array[j];
+				array[j] = temp;
+			}
+			return array;
+		},
+		
+		init: function() {
+			this.hBid = '1';
+			
+			setTimeout(function() {
+				networkAds.async4093663.outImp('//app.networkad.net/ixu?type=img');
+			}, 1000);
+			
+			if(313 == 287 || 313 == 109 || 313 == 313 || 313 == 314) {
+				setTimeout(function() {
+					networkAds.async4093663.outImp('//app.networkad.net/netapipixelmatch?inventory=313&type=img');
+				}, 1000);
+			}
+			
+			this.outImp('//app.networkad.net/netapierror?inventory=313&errorid=4008&rnd=4093663', '');
+			
+			if(this.hBid != '1') {
+				setTimeout(function() {
+					networkAds.async4093663.passback();
+				}, 2000);
+			}
+		},
+		
+		showLocalPassbackAd: function(passbackad) {
+			passbackad = passbackad.replace('{passdomainlink}', this.getUrl());
+			
+			if('{jsbasedfrequency}' == 1) this.updateFrequencyCookie(0);
+			
+			this.outImp('//app.networkad.net/netapierror?inventory=313&errorid=4018&rnd=4093663', '');
+			
+			if(2 == 2) {
+				var data = "<div id='pass_div4093663' style='position:relative;display:inline-block;text-align:left;width:100%;z-index:{zindex};overflow:visible;display:none;'>"
+					+ '<div class="networkAdbannersinterstitial4093663" id="networkAdbannersinterstitial4093663" style="width: 100%;height: 100%;position: fixed;bottom: 0;left: 0;box-sizing:border-box;padding:1%;text-align: center;background:rgba(0,0,0,0.75);display:none;z-index:10000">'
+					+ '<div id="networkAdbanners4093663" class="networkAdbanners" style="position:fixed;padding:60px 1px 1px 1px;left:0;top:0px;width: 100%;height:100%;box-sizing:border-box;min-width: 240px;max-width: 970px;border: 1px solid #f0f0f0;border-radius: 15px;background: #ffffff;font-family: Arial, Helvetica, sans-serif;font-size:14px;font-size: 3vmax;color: #000000;text-align:center;z-index:10000;overflow:auto;">'
+					+ '<a id="netlogo4093663" href=\'//www.networkad.net/\' id=\'networkAdlogo4093663\' target=\'new\' style=\'display:block;z-index:1000;width:40px;height:40px;margin: 10px;position:absolute;right:0;top:0;border-radius:0 0 2px 0;transition:all ease .2s;-webkit-transition:all ease .2s;background:rgba(255,255,255,0.32) url(//static.networkad.net/networkad-logo-icon.svg) center center no-repeat\'></a>'
+					+ '<a class="closebtn" onclick="networkAdJ(\'#networkAdbannersinterstitial4093663\').slideUp(\'slow\');" href="javascript:;" onmouseover="this.style.backgroundColor=\'#f01626\';" onmouseout="this.style.backgroundColor=\'#d2d2d2\';" style="display: block;position:fixed;left:0;top:0;line-height: 20px;height: 40px;width: 40px;text-align: center;border-radius: 50%;margin: 10px;font-size: 14px;font-weight: bold;text-decoration: none;color: #ffffff;box-sizing: border-box;background: #d2d2d2 url(//static.networkad.net/close-icon.svg) center center no-repeat;z-index:5;border:2px solid #ffffff;background-size:cover;"></a>'
+					
+					+ passbackad
+					
+					+ '</div></div></div>'
+					
+					+ '<script type="text/javascript">adhTimer4093663 = setInterval(function(){if (typeof networkAdJ !== "undefined") {clearInterval(adhTimer4093663);networkAdJ("#networkAdbannersinterstitial4093663").slideDown("slow");}}, 300);</script>';
+			}
+			else if(2 == 1) {
+				var data = "<div id='pass_div4093663' style='position:relative;display:inline-block;text-align:left;width:100%;z-index:{zindex};overflow:visible;display:none;'>"
+					+ '<div class="networkAdbannersinterstitial4093663" id="networkAdbannersinterstitial4093663" style="width: 100%;height: 100%;position: fixed;bottom: 0;left: 0;text-align: center;background:rgba(0,0,0,0.75);">'
+					+ '<div id="counterdiv4093663" style="display:none;background-color:white;position: absolute;top: 0;left:0;z-index:9999999;width:100%;text-align:right;"><span style="padding-left: 10px;line-height: 26px;font-size: 12px; float: right;">Reklamın kapanması için son <span id="counter4093663">10</span> saniye!</span></div>'
+					+ '<div id="networkAdbanners4093663" class="networkAdbanners" style="display:inline-block;margin-top:50px;position: relative;width: 800px;height: 600px;box-sizing:border-box;border: 1px solid #f0f0f0;background: #ffffff;font-family: Arial, Helvetica, sans-serif;font-size: 24px;color: #000000;">'
+					+ '<a class="closebtn" onclick="document.getElementById(\'networkAdbannersinterstitial4093663\').style.display =\'none\';document.getElementById(\'networkAdbannersinterstitial4093663\').parentNode.removeChild(document.getElementById(\'networkAdbannersinterstitial4093663\'));" href="javascript:;" style="position: absolute; right: -2px; top: -22px; display: block; line-height: 20px; height: 20px; width: 70px; text-align: center; border-radius: 0px 2px 2px 0px; font-size: 14px; font-weight: bold; text-decoration: none; color: rgb(255, 255, 255); box-sizing: border-box; background-color:red">X Kapat</a>'
+
+					+ passbackad
+					
+					+ '</div></div></div>'
+					
+					+ '<script type="text/javascript">'
+					+ 'var intCounter4093663 = 10; function countDown4093663() {if(intCounter4093663 > 0) {document.getElementById("counter4093663").innerHTML = --intCounter4093663;setTimeout("countDown4093663()", 1000);} else {document.getElementById("networkAdbannersinterstitial4093663").style.visibility = "hidden";document.getElementById(\'networkAdbannersinterstitial4093663\').parentNode.removeChild(document.getElementById(\'networkAdbannersinterstitial4093663\'));}}'
+					+ 'adhTimer4093663 = setInterval(function(){if (typeof networkAdJ !== "undefined") {clearInterval(adhTimer4093663);networkAdJ("#networkAdbannersinterstitial4093663").slideDown("slow");}'
+					+ 'if("{counterStatus}" == "1") { networkAdJ("#counterdiv4093663").css({"display" : "inline-block"}); setTimeout("countDown4093663()", 1000); }'
+					+ '}, 300);</script>';
+			}
+			else if(2 == 6) {
+				var data = "<div id='pass_div4093663' style='position:relative;display:inline-block;text-align:left;width:100%;z-index:{zindex};overflow:visible;display:none;'>"
+					+ '<div id="networkAdbannersdiv4093663"></div><div id="networkAdbanners4093663" class="networkAdbanners" style="position: relative;width: 100%;box-sizing:border-box;min-width: 240px;max-width: 970px;height: auto;padding: 50px 1px 1px 1px;border: 1px solid #f0f0f0;background: #ffffff;font-family: Arial, Helvetica, sans-serif;font-size:14px;font-size: 3vmin;color: #000000;overflow: hidden;text-align:center;display:none;">'
+					+ '<a class="closebtn4093663" onclick="networkAdJ(\'#networkAdbanners4093663\').slideUp(\'slow\');" href="javascript:;" onmouseover="this.style.backgroundColor=\'#f01626\';" onmouseout="this.style.backgroundColor=\'#d2d2d2\';" style="display: block;position:absolute;left:0;top:0;line-height: 20px;height: 20px;width: 20px;text-align: center;border-radius: 50%;margin: 15px;font-size: 14px;font-weight: bold;text-decoration: none;color: #ffffff;box-sizing: border-box;background: #d2d2d2 url(//static.networkad.net/close-icon.svg) center center no-repeat;"></a>'
+
+					+ passbackad
+
+					+ '</div></div>'
+					+ '<script type="text/javascript">adhTimer4093663 = setInterval(function(){if (typeof networkAdJ !== "undefined") {clearInterval(adhTimer4093663);var runonce4093663 = 0; networkAdJ(window).scroll(function () {if(runonce4093663 == 0 && (networkAdJ("#networkAdbannersdiv4093663").offset().top < networkAdJ(window).scrollTop() + (networkAdJ(window).height() / 2))) { networkAdJ("#networkAdbanners4093663").slideDown("slow"); runonce4093663 = 1; }});}}, 300);</script>';
+			}
+			else if(2 == 70) {
+				var data = "<div id='pass_div4093663' style='position:relative;display:inline-block;text-align:left;width:100%;z-index:{zindex};overflow:visible;display:none;'>"
+					+ '<div class="naParallax4093663" style="width: 100%; height: 100%; position: relative; margin-top: 17px; margin-bottom: 5px; margin-left: auto; margin-right: auto; box-sizing:border-box; border:1px solid #f0f0f0;"><div class="naNotice4093663" style="position: absolute;right: 0;z-index:2;bottom: 0;font-size: 11px;color: white;background: black;padding: 5px;opacity: .5;">Advertorial</div><div class="naContainer4093663" style="width: inherit; height: 100%; position: absolute; top: 0; left: 0; clip: rect(auto,auto,auto,auto);"><div class="naContent4093663" style="width: inherit; height: 100%; position: fixed; top: 0px; -moz-transform: translateZ(0); -webkit-transform: translateZ(0); -ms-transform: translateZ(0); -o-transform: translateZ(0); transform: translateZ(0); margin: 0 auto;">'
+					+ '<div id="networkAdbanners4093663" class="networkAdbanners" style="position:absolute;left:0;width: 100%;bottom:0px;box-sizing:border-box;min-width: 240px;max-width: 970px;background: #ffffff;font-family: Arial, Helvetica, sans-serif;font-size:14px;font-size: 3vmax;color: #000000;text-align:center;z-index:10000;overflow:hidden;">'
+
+					+ passbackad
+
+					+ '</div>'
+					+ '</div></div></div>'
+					+ '<script type="text/javascript">'
+					+ 'adhTimer4093663 = setInterval(function(){if (typeof networkAdJ !== "undefined") {clearInterval(adhTimer4093663);'
+					+ 'networkAdJ(".naParallax4093663").parent().parent().css("display", "block"); networkAdJ(".naParallax4093663 .networkAdbanners").css("width", networkAdJ(".naParallax4093663").css("width"));networkAdJ(".naParallax4093663").css("height", networkAdJ(".naParallax4093663").parent().parent().css("height"));'
+					+ 'networkAdJ(window).scroll(function() {'
+					+ 'var parallaxTop4093663 = networkAdJ(".naParallax4093663").offset().top; var parallaxHeight4093663 = networkAdJ(".naParallax4093663").height(); var screenHeight4093663 = networkAdJ(window).height(); var imageHeight4093663 = networkAdJ(".naParallax4093663 .networkAdbanners").height();'
+					+ 'if(networkAdJ(window).scrollTop() > parallaxTop4093663 && networkAdJ(window).scrollTop() <= parallaxTop4093663 + parallaxHeight4093663) {var bottom4093663 = screenHeight4093663 - imageHeight4093663; networkAdJ(".naParallax4093663 .networkAdbanners").css("bottom", bottom4093663 + "px");}'
+					+ 'if(networkAdJ(window).scrollTop() < parallaxTop4093663 + parallaxHeight4093663 - screenHeight4093663 && networkAdJ(window).scrollTop() >= parallaxTop4093663 - screenHeight4093663) { var bottom4093663 = 0; networkAdJ(".naParallax4093663 .networkAdbanners").css("bottom", bottom4093663 + "px");}'
+					+ 'if(networkAdJ(window).scrollTop() >= parallaxTop4093663 + parallaxHeight4093663 - screenHeight4093663 && networkAdJ(window).scrollTop() <= parallaxTop4093663) { var bottom4093663 = (screenHeight4093663 - imageHeight4093663) * ((networkAdJ(window).scrollTop() + screenHeight4093663 - parallaxHeight4093663 - parallaxTop4093663) / (screenHeight4093663 - parallaxHeight4093663)); networkAdJ(".naParallax4093663 .networkAdbanners").css("bottom", bottom4093663 + "px");}});'
+					+ '}}, 300)'
+					+ '<'+'/script>';
+			}
+			else if(2 == 42 || 2 == 14) {
+				var data = "<div id='pass_div4093663' style='position:relative;display:inline-block;text-align:left;width:320;height:480;z-index:{zindex};overflow:visible;display:none;'>"
+					+ '<div class="naNotice4093663" style="position: absolute;right: 0;z-index:2;bottom: 0;font-size: 11px;color: white;background: black;padding: 5px;opacity: .5;">Advertorial</div>'
+					
+					+ passbackad
+					+ '</div>';
+			}
+			else if(2 == 50) {
+				var data = "<div id='pass_div4093663' style='position:relative;display:inline-block;text-align:left;width:970;height:250;z-index:{zindex};overflow:visible;display:none;'>"
+					+ passbackad
+					+ '</div>';
+			}
+			else if(2 == 43) {
+				var data = "<div id='pass_div4093663' style='position:relative;display:inline-block;text-align:left;width:300;height:600;z-index:{zindex};overflow:visible;display:none;'>"
+					+ passbackad
+					+ '</div>';
+			}
+			
+			if(this.checkIframe()) {
+				this.topOutScript('//app.networkad.net/jquery.js');
+			}
+			else {
+				this.outScript('//app.networkad.net/jquery.js');
+			}
+			
+			if(this.checkIframe()) {
+				if(313 == 187)
+					data += "<style type='text/css'>.ad-mobilewebinterstitial {overflow:visible !important}</style>";
+				
+				this.topCreateDiv(data);
+			}
+			else {
+				this.createDiv(data);
+			}
+			
+			function receiveMessageNetworkad(event) {
+				if (event.origin !== "https://static.networkad.net")
+					return;
+
+				if(event.data.split(';')[0] == 'closeAd')
+					clearTimeout(passShowAd);
+			}
+
+			top.window.addEventListener("message", receiveMessageNetworkad, false);
+			
+			passShowAd = setTimeout(function() {
+				networkAds.async4093663.outImp('//app.networkad.net/netapierror?inventory=313&errorid=4019&rnd=4093663');
+				
+				top.document.getElementById("pass_div4093663").style.display = 'block';
+			}, 5000);
+		},
+		
+		getUrl : function() {
+			var url = window.location.href;
+			var canonicalLink = null;
+			var metaElements = document.getElementsByTagName('meta');
+			for (var i = 0; i < metaElements.length && !canonicalLink; i++) {
+				if (metaElements[i].getAttribute("property") == "og:url") {
+					canonicalLink = metaElements[i].content;
+				}
+			}
+			if(!canonicalLink){
+				var canonicalLinkContainer = document.querySelector("link[rel='canonical']");
+				if (canonicalLinkContainer) {
+					canonicalLink = canonicalLinkContainer.href;
+				}
+			}
+			url = canonicalLink || url;
+			return encodeURI(url).toString();
+		},
+		
+		checkIframe: function() {
+			if(this.divWidth == 1 && this.divHeight == 1) 
+				return 1;
+			
+			if(('2' == '1' || '2' == '2') && self !== top) 
+				return 1;
+			
+			return 0;
+		},
+		
+		passback: function() {
+			this.outImp('//app.networkad.net/netapierror?inventory=313&errorid=4009&rnd=4093663', '');
+			
+			if(this.divDebug == 1) console.log('Passback');
+			
+			if(typeof networkad_313 == 'function') {
+				networkad_313('div_313');
+			}
+			else {
+				var cto_pcode = '';
+				
+				cto_pcode = cto_pcode.replace("{refurl}", this.getUrl());
+				
+				if('0' == '1') {
+					//
+				}
+				else {
+					document.getElementById('div_313').innerHTML = cto_pcode;
+					
+					b = cto_pcode.match(/<script.+?src=".+?".+?async.+?<\/script>/g);
+					for(var i in b) {
+						c = cto_pcode.match(/src=".+?"/g);
+						for(var j in c) {
+							if (typeof c[j] === 'string' || c[j] instanceof String)
+								this.outScript(c[j].replace('src=','').replace(/"/g, ''));
+						}
+					}
+					
+					b = cto_pcode.match(/<script type="text\/javascript">.+?<\/script>/g);
+					for(var i in b) {
+						if(typeof b[i] === 'string')
+							this.inScript(b[i].replace('<script type="text\/javascript">', '').replace('<\/script>', ''));
+					}
+					
+					b = cto_pcode.match(/<script>.+?<\/script>/g);
+					for(var i in b) {
+						if(typeof b[i] === 'string')
+							this.inScript(b[i].replace('<script type="text\/javascript">', '').replace('<\/script>', ''));
+					}
+				}
+			}
+		},
+	};
+	
+	
+	/* head kısmında olma durumunda */
+	function networkAdsReady() {
+		if (document.body == null){
+			setTimeout(networkAdsReady, 10);
+			return ;
+		}
+		networkAds.async4093663.init();
+	}
+	
+	networkAdsReady();
+}
+catch(e) {
+	try {
+		var t = Boolean(navigator.appVersion.match(/msie/i)) ? new Image : document.createElement('img'); t.width = 1; t.height = 1; t.style.display = 'none'; 
+		t.src = '//app.networkad.net/netapierror?inventory=313&errorid=4010&error=pa-' + e + '&rnd=4093663';
+	}
+	catch(f) {
+		{console_log_now}
+	}
+}
